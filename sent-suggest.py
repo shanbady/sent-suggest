@@ -1,12 +1,18 @@
 #!/usr/bin/env python
 
 """
-sent-suggest.py: Generates an alernative sentence by looking up synonyms for particlar words based on their part of speech.
+
+sent-suggest.py: 
+
+Generates an alernative sentence by looking up synonyms for particlar words based on their part of speech.
+
 This was inspired by an email I received which I have used as the initial example text.
+
 """
 
 __author__      = "Shankar Ambady"
 __copyright__   = "Copyright 2012, sambady@sessionm.com"
+
 
 
 from nltk import ne_chunk,pos_tag
@@ -14,6 +20,8 @@ from nltk import ne_chunk,pos_tag
 from nltk.tokenize.punkt import PunktSentenceTokenizer
 from nltk.tokenize.treebank import TreebankWordTokenizer
 from nltk.corpus import stopwords
+import nltk.data
+from nltk.corpus import wordnet
 
 text = '''
 
@@ -40,11 +48,7 @@ I hope you consider helping me,
 Thanks,
 Walter White
 
-
 '''
-import nltk.data
-from nltk.corpus import wordnet
-
 
 def find_synonym(word,pos):
     l_syns = []
@@ -57,10 +61,6 @@ def find_synonym(word,pos):
 
 stopwords = stopwords.words('english') # common english words to filter out
 
-TreeBankTokenizer = TreebankWordTokenizer()
-
-PunktTokenizer = PunktSentenceTokenizer()
-
 sentences = nltk.sent_tokenize(text)
 
 tokens = [nltk.wordpunct_tokenize(sentence) for sentence in sentences]
@@ -68,6 +68,7 @@ tokens = [nltk.wordpunct_tokenize(sentence) for sentence in sentences]
 tagged = [pos_tag(token) for token in tokens]
 
 changedstr = []
+
 inlinestr = []
 
 for taggedsentence in tagged:
@@ -86,11 +87,11 @@ for taggedsentence in tagged:
     changedstr.append(word)
     
 changedstr = ' '.join(changedstr)
+
 inlinestr = ' '.join(inlinestr)
 
 print "ORIGINAL TEXT: \n" + text + "\n\n"
 
 print "ALTERNATE TEXT: \n" + changedstr  + "\n\n"
-
 
 print "\n\nINLINE CHANGES: \n" + inlinestr  + "\n\n"
